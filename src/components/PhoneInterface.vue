@@ -45,6 +45,8 @@ const apps = [
 
 // mapping for inline SVG icons used on the home app grid
 const getIcon = (name: string) => {
+  const base = import.meta.env.BASE_URL
+
   const svgs: Record<string, string> = {
     profile: `
       <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -52,49 +54,74 @@ const getIcon = (name: string) => {
         <path d="M4 20c0-3.3 3.6-6 8-6s8 2.7 8 6" fill="white" />
       </svg>
     `,
+
     info: `
       <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
         <path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z" fill="white" />
         <circle cx="12" cy="12" r="2.2" fill="#333" />
       </svg>
     `,
+
     works: `
       <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
         <path d="M12 2l2.6 6.6L21 9l-5 3.7L17.2 21 12 17.8 6.8 21 8 12.7 3 9l6.4-0.4L12 2z" fill="white" />
       </svg>
     `,
+
     contact: `
       <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
         <rect x="2" y="5" width="20" height="14" rx="2" fill="white" />
         <path d="M3 7l9 6 9-6" fill="#e6e6e6" />
       </svg>
     `,
+
     fiverr: `
-      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-        <path d="M12 2c-1.7 0-3 1.3-3 3h6c0-1.7-1.3-3-3-3z" fill="white" />
-       <image href="/icons/fiverr.png" x="0" y="0" width="120" height="120" />
+      <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <image
+          href="${base}icons/fiverr.png"
+          x="0"
+          y="0"
+          width="120"
+          height="120"
+        />
       </svg>
     `,
+
     animation: `
       <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
         <rect x="3" y="6" width="18" height="12" rx="1.5" fill="white" />
         <path d="M3 6l4-3 4 3 4-3 4 3" stroke="#e6e6e6" stroke-width="0.5" fill="none" />
       </svg>
     `,
+
     youtube: `
       <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-        <image href="/icons/youtube.svg" x="0" y="0" width="120" height="120" />
+        <image
+          href="${base}icons/youtube.svg"
+          x="0"
+          y="0"
+          width="120"
+          height="120"
+        />
       </svg>
     `,
+
     journal: `
-      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-        <path d="M6 2h9a3 3 0 0 1 3 3v14a1 1 0 0 1-1 1H6a3 3 0 0 1-3-3V5a3 3 0 0 1 3-3z" fill="white" />
-        <image href="/icons/Substack.svg" x="0" y="0" width="120" height="120" />
+      <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <image
+          href="${base}icons/Substack.svg"
+          x="0"
+          y="0"
+          width="120"
+          height="120"
+        />
       </svg>
     `
   }
+
   return svgs[name] || ''
 }
+
 
 const currentAppComponent = computed(() => {
   const componentMap: Record<string, any> = {
