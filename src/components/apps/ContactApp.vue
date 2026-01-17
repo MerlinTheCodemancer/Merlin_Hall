@@ -49,11 +49,6 @@
 
           </a>
 
-          <a class="social-tile" rel="noopener" target="_blank" href="https://merlinthecodemancer.newgrounds.com" aria-label="Newgrounds" title="Newgrounds" style="--c1:#fbb040; --c2:#b3742a;">
-            <img class="social-svg" src="/icons/newgrounds.svg" alt="Newgrounds" loading="lazy" />
-
-          </a>
-
           <a class="social-tile" rel="noopener" target="_blank" href="https://github.com/MerlinTheCodemancer" aria-label="GitHub" title="GitHub" style="--c1:#333333; --c2:#111111;">
             <img class="social-svg" src="/icons/github.svg" alt="GitHub" loading="lazy" />
 
@@ -61,11 +56,6 @@
 
           <a class="social-tile" rel="noopener" target="_blank" href="https://reddit.com/u/MerlinTheCodemancer" aria-label="Reddit" title="Reddit" style="--c1:#ff4500; --c2:#c23100;">
             <img class="social-svg" src="/icons/reddit.svg" alt="Reddit" loading="lazy" />
-
-          </a>
-
-          <a class="social-tile" rel="noopener" target="_blank" href="https://kick.com/merlinthecodemancer" aria-label="Kick" title="Kick" style="--c1:#53FC18; --c2:#2fae00;">
-            <img class="social-svg" src="/icons/Kick.svg" alt="Kick" loading="lazy" />
 
           </a>
 
@@ -266,8 +256,8 @@
 
 .social-networks { background: transparent; border-radius:15px; padding:12px; border:3px solid #333; box-shadow:none; }
 .social-networks h3 { font-size:18px; color:#333; margin:0 0 12px 0; font-weight:700; text-align:center; }
-.social-grid { display:grid; grid-template-columns: repeat(4, 1fr); gap:10px; }
-.social-tiles { display:grid; grid-template-columns: repeat(4, 1fr); gap:10px; }
+.social-grid { display:grid; grid-template-columns: repeat(3, 1fr); gap:10px; }
+.social-tiles { display:grid; grid-template-columns: repeat(3, 1fr); gap:10px; }
 .social-tile { position:relative; width:100%; aspect-ratio:1/1; display:grid; place-items:center; text-decoration:none; color:inherit; border-radius:12px; overflow:hidden; background:#0f1114; border:0; box-shadow:0 1px 2px rgba(0,0,0,.5); transition: transform .32s cubic-bezier(.2,.9,.3,1), box-shadow .36s, filter .36s; }
 .social-tile::before { content:''; position:absolute; inset:1px; border-radius:inherit; background: linear-gradient(150deg, color-mix(in srgb,var(--c1, #666) 28%, transparent), color-mix(in srgb,var(--c2, #333) 18%, transparent)); opacity:.45; pointer-events:none; transition:opacity .36s, filter .36s; }
 .social-tile::after { content:''; position:absolute; inset:-6px; border-radius:inherit; background:linear-gradient(120deg, var(--c1, #666), var(--c2, #333)); opacity:0; filter:blur(18px); transform:scale(.8); transition:opacity .5s, transform .5s, filter .5s; mix-blend-mode:plus-lighter; }

@@ -20,6 +20,8 @@ interface Emits {
 const props = defineProps<Props>()
 const emit = defineEmits<Emits>()
 
+const baseUrl = import.meta.env.BASE_URL
+
 const currentTime = ref(new Date().toLocaleTimeString('pt-BR', { 
   hour: '2-digit', 
   minute: '2-digit' 
@@ -34,19 +36,22 @@ setInterval(() => {
 }, 60000)
 
 const apps = [
-  { name: 'profile', label: 'PROFILE', color: '#FFD700' },
-  { name: 'info', label: 'INFO', color: '#87CEEB' },
-  { name: 'works', label: 'WORKS', color: '#FF6347' },
-  { name: 'contact', label: 'CONTACT', color: '#90EE90' },
-  { name: 'shop', label: 'SHOP', color: '#2F4F2F' },
+  { name: 'profile', label: 'PROFILE', icon: 'perfil', color: '#FFD700' },
+  { name: 'info', label: 'INFO', icon: 'Book', color: '#87CEEB' },
+  { name: 'works', label: 'WORKS', icon: 'compass', color: '#FF6347' },
+  { name: 'contact', label: 'CONTACT', icon: 'arroba', color: '#90EE90' },
+  { name: 'shop', label: 'SHOP', icon: 'Shop', color: '#2F4F2F' },
   { name: 'youtube', label: 'YOUTUBE', icon: 'youtube', color: '#FF0000' },
-  { name: 'journal', label: 'JOURNAL',  icon: 'Substack', color: '#9370DB' }
+  { name: 'substack', label: 'SUBSTACK', icon: 'Substack', color: '#9370DB' },
+  { name: 'github', label: 'GITHUB', icon: 'github', color: '#1a1a1a' },
+  { name: 'artstation', label: 'ARTSTATION', icon: 'artstation', color: '#13AFF0' },
+  { name: 'newgrounds', label: 'NEWGROUNDS', icon: 'newgrounds', color: '#EAA61E' },
+  { name: 'instagram', label: 'INSTAGRAM', icon: 'instagram', color: '#E4405F' },
+  { name: 'kick', label: 'KICK', icon: 'Kick', color: '#5AF60D' }
 ]
 
 // mapping for inline SVG icons used on the home app grid
 const getIcon = (name: string) => {
-  const base = import.meta.env.BASE_URL
-
   const svgs: Record<string, string> = {
     profile: `
       <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -75,46 +80,10 @@ const getIcon = (name: string) => {
       </svg>
     `,
 
-    fiverr: `
-      <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-        <image
-          href="${base}icons/fiverr.png"
-          x="0"
-          y="0"
-          width="120"
-          height="120"
-        />
-      </svg>
-    `,
-
     animation: `
       <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
         <rect x="3" y="6" width="18" height="12" rx="1.5" fill="white" />
         <path d="M3 6l4-3 4 3 4-3 4 3" stroke="#e6e6e6" stroke-width="0.5" fill="none" />
-      </svg>
-    `,
-
-    youtube: `
-      <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-        <image
-          href="${base}icons/youtube.svg"
-          x="0"
-          y="0"
-          width="120"
-          height="120"
-        />
-      </svg>
-    `,
-
-    journal: `
-      <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-        <image
-          href="${base}icons/Substack.svg"
-          x="0"
-          y="0"
-          width="120"
-          height="120"
-        />
       </svg>
     `
   }
@@ -136,7 +105,7 @@ const currentAppComponent = computed(() => {
 })
 
 const openApp = (appName: string) => {
-  if (appName === 'journal') {
+  if (appName === 'substack') {
     window.open('https://merlinthecodemancer.substack.com', '_blank')
     return
   }
@@ -144,8 +113,24 @@ const openApp = (appName: string) => {
     window.open('https://www.youtube.com/@Merlin_Codemancer', '_blank')
     return
   }
-  if (appName === 'fiverr') {
-    window.open('https://www.fiverr.com/merlin_codemancer', '_blank')
+  if (appName === 'github') {
+    window.open('https://github.com/merlinthecodemancer', '_blank')
+    return
+  }
+  if (appName === 'artstation') {
+    window.open('https://www.artstation.com/merlinthecodemancer', '_blank')
+    return
+  }
+  if (appName === 'newgrounds') {
+    window.open('https://merlinthecodemancer.newgrounds.com', '_blank')
+    return
+  }
+  if (appName === 'instagram') {
+    window.open('https://www.instagram.com/merlin_codemancer/', '_blank')
+    return
+  }
+  if (appName === 'kick') {
+    window.open('https://kick.com/merlin_codemancer', '_blank')
     return
   }
   emit('open-app', appName)
@@ -190,7 +175,7 @@ const closeApp = () => {
               @click="openApp(app.name)"
             >
               <template v-if="app.icon">
-                <img class="app-img" :src="`/icons/${app.icon}.svg`" :alt="app.label" />
+                <img class="app-img" :src="`${baseUrl}icons/${app.icon}.svg`" :alt="app.label" />
               </template>
               <template v-else>
                 <span class="app-svg" v-html="getIcon(app.name)"></span>
