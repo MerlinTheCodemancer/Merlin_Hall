@@ -3,7 +3,7 @@ import { ref, computed } from 'vue'
 
 // App components imports
 import ProfileApp from './apps/ProfileApp.vue'
-import InfoApp from './apps/InfoApp.vue'
+import GalleryApp from './apps/GalleryApp.vue'
 import WorksApp from './apps/WorksApp.vue'
 import ContactApp from './apps/ContactApp.vue'
 import ShopApp from './apps/ShopApp.vue'
@@ -37,17 +37,12 @@ setInterval(() => {
 
 const apps = [
   { name: 'profile', label: 'PROFILE', icon: 'perfil', color: '#FFD700' },
-  { name: 'info', label: 'INFO', icon: 'Book', color: '#87CEEB' },
+  { name: 'gallery', label: 'GALLERY', icon: 'Book', color: '#87CEEB' },
   { name: 'works', label: 'WORKS', icon: 'compass', color: '#FF6347' },
   { name: 'contact', label: 'CONTACT', icon: 'arroba', color: '#90EE90' },
   { name: 'shop', label: 'SHOP', icon: 'Shop', color: '#2F4F2F' },
   { name: 'youtube', label: 'YOUTUBE', icon: 'youtube', color: '#FF0000' },
-  { name: 'substack', label: 'SUBSTACK', icon: 'Substack', color: '#9370DB' },
-  { name: 'github', label: 'GITHUB', icon: 'github', color: '#1a1a1a' },
-  { name: 'artstation', label: 'ARTSTATION', icon: 'artstation', color: '#13AFF0' },
-  { name: 'newgrounds', label: 'NEWGROUNDS', icon: 'newgrounds', color: '#EAA61E' },
-  { name: 'instagram', label: 'INSTAGRAM', icon: 'instagram', color: '#E4405F' },
-  { name: 'kick', label: 'KICK', icon: 'Kick', color: '#5AF60D' }
+    { name: 'kick', label: 'KICK', icon: 'Kick', color: '#5AF60D' },
 ]
 
 // mapping for inline SVG icons used on the home app grid
@@ -60,7 +55,7 @@ const getIcon = (name: string) => {
       </svg>
     `,
 
-    info: `
+    gallery: `
       <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
         <path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z" fill="white" />
         <circle cx="12" cy="12" r="2.2" fill="#333" />
@@ -95,7 +90,7 @@ const getIcon = (name: string) => {
 const currentAppComponent = computed(() => {
   const componentMap: Record<string, any> = {
     profile: ProfileApp,
-    info: InfoApp,
+    gallery: GalleryApp,
     works: WorksApp,
     contact: ContactApp,
     shop: ShopApp,
@@ -194,7 +189,7 @@ const closeApp = () => {
         <!-- App Screen -->
         <div v-else class="app-screen">
           <div class="app-header">
-            <button class="back-button" @click="closeApp">←</button>
+            <button class="back-button" @click="closeApp"><</button>
             <span class="app-title">{{ apps.find(a => a.name === currentApp)?.label }}</span>
             <div class="app-actions"></div>
           </div>
@@ -428,20 +423,23 @@ const closeApp = () => {
 .app-header {
   display: flex;
   align-items: center;
-  padding: 15px 20px;
+  padding: 20px 20px;
   background: rgba(255, 255, 255, 0.9);
   border-bottom: 2px solid #333;
 }
 
 .back-button {
+  font-family: Fipps-Regular;
   background: none;
   border: none;
-  font-size: 20px;
+  font-size: 32px;
   cursor: pointer;
-  padding: 5px;
+  padding-right: 0px;
+  padding-left: 0px;
+  padding-top: 0px;
   border-radius: 50%;
-  width: 35px;
-  height: 35px;
+  width: 15px;
+  height: 15px;
   display: flex;
   align-items: center;
   justify-content: center;

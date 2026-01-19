@@ -1,114 +1,118 @@
 <script setup lang="ts">
+import crossboard from '../../assets/CrossboardPixelArt.svg'
+import paperLarge from '../../assets/paperPixelArtG.svg'
+
+const baseUrl = import.meta.env.BASE_URL
 </script>
 
 <template>
   <div class="shop-app">
-    <div class="shop-header">
-      <img class="shop-image" src="/6350711.png" alt="shop" />
-      <h2>Art Shop</h2>
-    </div>
-    
-    <div class="shop-content">
-      <div class="product-grid">
-        <div class="product-item">
-          <img class="product-image" src="/6350711.png" alt="product" />
-          <h3>Digital Art Prints</h3>
-          <p>High-quality digital art prints</p>
-          <span class="price">$25.00</span>
+    <div class="shop-frame" :style="{ '--crossboard-url': `url(${crossboard})`, '--paper-url': `url(${paperLarge})` }">
+      <header class="shop-header">
+        <img class="shop-header__img" :src="`${baseUrl}cake.png`" alt="Shop" loading="lazy" />
+        <div class="shop-header__text">
+          <h2>Shop</h2>
+          <p>Em breve</p>
         </div>
-        
-        <div class="product-item">
-          <img class="product-image" src="/6350711.png" alt="product" />
-          <h3>Custom Illustrations</h3>
-          <p>Personalized character designs</p>
-          <span class="price">$150.00</span>
-        </div>
-        
-        <div class="product-item">
-          <img class="product-image" src="/6350711.png" alt="product" />
-          <h3>Web Design Templates</h3>
-          <p>Creative web design packages</p>
-          <span class="price">$89.00</span>
-        </div>
-      </div>
+      </header>
+
+      <section class="card" aria-label="Shop em breve">
+        <h3>Loja em construção</h3>
+        <p>
+          Aqui você pode colocar links de Gumroad / Itch.io / Steam / produtos digitais.
+          Por enquanto, é só um placeholder para manter o app funcionando.
+        </p>
+        <a class="btn" href="https://linktr.ee/" target="_blank" rel="noopener">Adicionar links</a>
+      </section>
     </div>
   </div>
 </template>
 
 <style scoped>
 .shop-app {
-  padding: 20px;
   height: 100%;
   background: transparent;
+  overflow: hidden;
+}
+
+.shop-frame {
+  height: 100%;
   overflow-y: auto;
+  padding: 16px;
   border: 3px solid #333;
   border-radius: 12px;
+  background-image: var(--crossboard-url);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
 }
 
 .shop-header {
-  text-align: center;
-  margin-bottom: 25px;
+  display: grid;
+  grid-template-columns: 70px 1fr;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 14px;
 }
 
-.shop-image {
-  display: block;
-  width: 96px;
-  height: 96px;
+.shop-header__img {
+  width: 70px;
+  height: 70px;
   object-fit: contain;
-  margin: 0 auto 8px;
 }
 
-.shop-header h2 {
-  font-size: 22px;
-  color: white;
+.shop-header__text h2 {
   margin: 0;
-  font-weight: bold;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  color: #ffffff;
+  font-size: 22px;
+  text-shadow: #1a1a1a 3px 3px 5px;
 }
 
-.product-grid {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
+.shop-header__text p {
+  margin: 2px 0 0 0;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 12px;
 }
 
-.product-item {
-  background: transparent;
-  border-radius: 15px;
-  padding: 15px;
+.card {
+  border-radius: 14px;
   border: 3px solid #333;
-  box-shadow: none;
-  text-align: center;
+  padding: 14px;
+  background-image: var(--paper-url);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
 }
 
-.product-image {
-  display: block;
-  width: 96px;
-  height: 96px;
-  object-fit: contain;
-  margin: 0 auto 12px;
+.card h3 {
+  margin: 0;
+  font-size: 18px;
+  color: #111;
 }
 
-.product-item h3 {
-  font-size: 16px;
-  color: #333;
-  margin: 0 0 8px 0;
-  font-weight: bold;
-}
-
-.product-item p {
+.card p {
+  margin: 10px 0 0 0;
   font-size: 13px;
-  color: #555;
-  margin: 0 0 10px 0;
+  line-height: 1.45;
+  color: rgba(0, 0, 0, 0.85);
 }
 
-.price {
-  background: #4ECDC4;
-  color: white;
-  padding: 6px 12px;
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 12px;
+  padding: 10px 12px;
   border-radius: 12px;
-  font-size: 14px;
-  font-weight: bold;
-  border: 2px solid #333;
+  border: 3px solid #333;
+  background: rgba(78, 205, 196, 0.95);
+  color: #111;
+  text-decoration: none;
+  font-weight: 900;
+  font-size: 12px;
+}
+
+.btn:hover {
+  filter: brightness(1.05);
 }
 </style>

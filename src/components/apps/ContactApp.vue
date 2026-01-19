@@ -1,81 +1,95 @@
 <script setup lang="ts">
+import { computed, ref } from 'vue'
+import paperLarge from '../../assets/paperPixelArtG.svg'
+import crossboard from '../../assets/CrossboardPixelArt.svg'
+
+const toEmail = 'merlin.thecodemecer@gmail.com'
+
+const fromEmail = ref('')
+const subject = ref('')
+const message = ref('')
+const attachmentName = ref<string | null>(null)
+
+const mailtoHref = computed(() => {
+  const subjectEncoded = encodeURIComponent(subject.value.trim())
+  const bodyParts = [
+    `From: ${fromEmail.value.trim() || '(não informado)'}`,
+    '',
+    message.value.trim(),
+  ]
+
+  if (attachmentName.value) {
+    bodyParts.push('', `Anexo (selecionado no site): ${attachmentName.value}`)
+  }
+
+  const bodyEncoded = encodeURIComponent(bodyParts.join('\n'))
+  return `mailto:${toEmail}?subject=${subjectEncoded}&body=${bodyEncoded}`
+})
+
+function onPickAttachment(event: Event) {
+  const input = event.target as HTMLInputElement
+  const file = input.files?.[0] ?? null
+  attachmentName.value = file?.name ?? null
+}
+
+function onSend() {
+  window.location.href = mailtoHref.value
+}
 </script>
 
 <template>
   <div class="contact-app">
-    <div class="contact-header">
-      <img class="contact-image" src="/calendar.png" alt="contact" />
-      <h2>Get in Touch</h2>
-    </div>
-    
-    <div class="contact-content">
-      <div class="contact-methods">
-        <div class="contact-method">
-          <div class="method-icon" style="background: #FF6B6B;">
-            <span><img src="/Gmail.png" alt="Gmail" /></span>
+    <div class="contact-frame" :style="{ '--crossboard-url': `url(${crossboard})`, '--paper-url': `url(${paperLarge})` }">
+      <div class="contact-inner">
+        <header class="contact-header">
+          <h2>Enviar Email</h2>
+        </header>
+
+        <form class="email-form" @submit.prevent="onSend">
+          <div class="field">
+            <label class="label">Para</label>
+            <div class="readonly">{{ toEmail }}</div>
           </div>
-          <div class="method-info">
-            <h3>Email</h3>
-            <p>marcelo.doccs@gmail.com</p>
+
+          <div class="field">
+            <label class="label" for="fromEmail">De</label>
+            <input
+              id="fromEmail"
+              v-model="fromEmail"
+              class="input"
+              type="email"
+              autocomplete="email"
+              placeholder="seuemail@exemplo.com"
+            />
           </div>
-        </div>
-        
-        <div class="contact-method">
-          <div class="method-icon" style="background: #9B59B6;">
-            <img src="/cake.png" alt="Cake" />
+
+          <div class="field">
+            <label class="label" for="subject">Assunto</label>
+            <input id="subject" v-model="subject" class="input" type="text" placeholder="Assunto da mensagem" />
           </div>
-          <div class="method-info">
-            <h3>Idade</h3>
-            <p>21 Anos</p>
+
+          <div class="field field--message">
+            <label class="label" for="message">Mensagem</label>
+            <textarea
+              id="message"
+              v-model="message"
+              class="textarea"
+              rows="6"
+              placeholder="Escreva sua mensagem..."
+            />
+
+            <div class="attach-row">
+              <input id="attachment" class="attach-input" type="file" @change="onPickAttachment" />
+              <label class="attach-row__button" for="attachment">Anexar</label>
+              <span v-if="attachmentName" class="attach-row__name">{{ attachmentName }}</span>
+              <span v-else class="attach-row__name attach-row__name--empty">Nenhum anexo</span>
+            </div>
           </div>
-        </div>
-      </div>
-      
-      <div class="social-networks">
-        <h3>Minhas Redes Sociais</h3>
-        <div class="social-grid social-tiles">
-          <a class="social-tile" rel="noopener" target="_blank" href="https://discord.com/users/merlinthecodemancer" aria-label="Discord" title="Discord" style="--c1:#5865F2; --c2:#414cc7;">
-            <img class="social-svg" src="/icons/Discord.svg" alt="Discord" loading="lazy" />
 
-          </a>
-
-          <a class="social-tile" rel="noopener" target="_blank" href="https://twitter.com/MerlinCodemanc1" aria-label="Twitter" title="Twitter" style="--c1:#1DA1F2; --c2:#0f1419;">
-            <img class="social-svg" src="/icons/x-twitter.svg" alt="Twitter" loading="lazy" />
-
-          </a>
-
-          <a class="social-tile" rel="noopener" target="_blank" href="https://instagram.com/merlinthecodemancer" aria-label="Instagram" title="Instagram" style="--c1:#E4405F; --c2:#FCCC63;">
-            <img class="social-svg" src="/icons/instagram.svg" alt="Instagram" loading="lazy" />
-
-          </a>
-
-          <a class="social-tile" rel="noopener" target="_blank" href="https://github.com/MerlinTheCodemancer" aria-label="GitHub" title="GitHub" style="--c1:#333333; --c2:#111111;">
-            <img class="social-svg" src="/icons/github.svg" alt="GitHub" loading="lazy" />
-
-          </a>
-
-          <a class="social-tile" rel="noopener" target="_blank" href="https://reddit.com/u/MerlinTheCodemancer" aria-label="Reddit" title="Reddit" style="--c1:#ff4500; --c2:#c23100;">
-            <img class="social-svg" src="/icons/reddit.svg" alt="Reddit" loading="lazy" />
-
-          </a>
-
-          <a class="social-tile" rel="noopener" target="_blank" href="https://www.linkedin.com/in/marcelo-deabreu-ferreira" aria-label="LinkedIn" title="LinkedIn" style="--c1:#0077B5; --c2:#005085;">
-            <img class="social-svg" src="/icons/linkedin.png" alt="LinkedIn" loading="lazy" />
-
-          </a>
-        </div>
-      </div>
-      
-  <div class="quick-contact">
-        <h3>Entre em Contato</h3>
-        <button class="email-button" onclick="window.location.href='mailto:marcelo.doccs@gmail.com?subject=Contato via Portfolio&body=Olá Marcelo, vi seu portfolio e gostaria de conversar sobre...'">
-          <img class="email-icon" src="/Gmail.png" alt="Gmail" />
-          <div class="email-info">
-            <span class="email-title">Enviar Email</span>
-            <span class="email-subtitle">marcelo.doccs@gmail.com</span>
-          </div>
-          <span class="send-arrow">→</span>
-        </button>
+          <button class="send-fab" type="submit" :title="'Enviar mensagem para ' + toEmail" aria-label="Enviar mensagem">
+            <span class="send-fab__text">Enviar</span>
+          </button>
+        </form>
       </div>
     </div>
   </div>
@@ -83,202 +97,196 @@
 
 <style scoped>
 .contact-app {
-  padding: 20px;
+  padding-left: 6px;
+  padding-right: 6px;
   height: 100%;
   background: transparent;
   overflow-y: auto;
-  border: 3px solid #333;
-  border-radius: 12px;
 }
 
-.contact-header {
-  text-align: center;
-  margin-bottom: 25px;
+.contact-frame {
+  position: relative;
+  min-height: 100%;
+  overflow: hidden;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-image:var(--crossboard-url);
 }
 
-.contact-image {
-  display: block;
-  width: 96px;
-  height: 96px;
-  object-fit: contain;
-  margin: 0 auto 8px;
+.contact-inner {
+  position: relative;
+  z-index: 1;
+  padding-top: 85px;
+  padding-left: 20px;
+  padding-right: 30px;
+  padding-bottom: 65px;
+  display: flex;
+  flex-direction: column;
+  gap: 0px;
 }
 
 .contact-header h2 {
-  font-size: 22px;
-  color: #333;
   margin: 0;
-  font-weight: bold;
-}
-
-.contact-content {
-  display: flex;
-  flex-direction: column;
-  gap: 25px;
-}
-
-.contact-methods {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.contact-method {
-  background: transparent;
-  border-radius: 12px;
-  padding: 15px;
-  border: 3px solid #333;
-  box-shadow: none;
-  display: flex;
-  align-items: center;
-  gap: 15px;
-}
-
-.method-icon {
-  width: 50px;
-  height: 50px;
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 3px solid #333;
-  flex-shrink: 0;
-}
-
-.method-icon span {
-  font-size: 20px;
-}
-
-/* Ensure icons fit inside the 50x50 .method-icon box */
-.method-icon img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  display: block;
-}
-
-.gmail-icon {
-  width: 50px;
-  height: 50px;
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 3px solid #333;
-  flex-shrink: 0;
-}
-
-.gmail-icon span {
-  font-size: 10px;
-}
-
-.gmail-icon img {
-  width: 90%;
-  height: 90%;
-  object-fit: contain;
-  display: block;
-}
-
-/* Email icon inside the quick-contact button */
-.email-button img.email-icon {
-  width: 44px;
-  height: 44px;
-  object-fit: contain;
-  flex-shrink: 0;
-}
-
-.method-info h3 {
-  font-size: 16px;
-  color: #333;
-  margin: 0 0 5px 0;
-  font-weight: bold;
-}
-
-.method-info p {
-  font-size: 14px;
-  color: #555;
-  margin: 0;
-}
-
-  .quick-contact {
-  background: transparent;
-  border-radius: 15px;
-  padding: 18px;
-  border: 3px solid #333;
-  box-shadow: none;
-}
-
-.quick-contact h3 {
-  font-size: 18px;
-  color: #333;
-  margin: 0 0 14px 0;
-  font-weight: bold;
+  position: relative;
   text-align: center;
+  font-size: 32px;
+  color: #ffffff;
+  text-shadow: #1a1a1a 4px 4px 6px;
 }
 
-.email-button {
-  width: 100%;
-  background: linear-gradient(135deg, #4ECDC4, #45B7B8);
-  color: white;
-  border: 0;
-  padding: 12px;
+.contact-header p {
+  margin: 4px 0 0 0;
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.email-form {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0px;
+  margin-top: 10px;
+}
+
+.field {
+  display: grid;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.field--message {
+  margin-bottom: 10px;
+}
+
+.label {
+  font-size: 11px;
+  font-weight: 800;
+  color: #1a1a1a;
+}
+
+.readonly {
+  padding: 8px 6px;
+  background: rgba(73, 27, 0, 0.2);
+  font-size: 10px;
   border-radius: 12px;
-  font-size: 15px;
-  font-weight: 700;
-  cursor: pointer;
+  border: none;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.input,
+.textarea {
+  width: 100%;
+  border-radius: 12px;
+  border: none;
+  padding: 8px 6px;
+  background: rgba(73, 17, 0, 0.2);
+  font-size: 12px;
+  outline: none;
+}
+
+.textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+
+.textarea--message {
+  margin-bottom: 10px;
+}
+
+.attach-row {
+  font-family: Fipps-Regular;
   display: flex;
   align-items: center;
-  gap: 12px;
-  transition: transform .28s cubic-bezier(.2,.9,.3,1), box-shadow .36s;
-  position:relative;
-  overflow:hidden;
+  gap: 10px;
+  margin-top: -200px;
+  margin: 20px;
 }
 
-.email-button::before {
-  content:'';
-  position:absolute; inset:1px; border-radius:10px; z-index:0;
-  background: linear-gradient(150deg, rgba(255,255,255,0.16), rgba(255,255,255,0.04));
-  pointer-events:none;
+.attach-input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
-.email-button .email-icon, .email-button .email-info, .email-button .send-arrow { position:relative; z-index:1; }
-
-.email-button:hover { transform:translateY(-6px) scale(1.03); box-shadow: 0 12px 36px -16px rgba(78,205,196,.5), 0 0 0 1px rgba(78,205,196,.12); }
-
-.email-icon { font-size: 22px; flex-shrink: 0; }
-
-.email-info { flex:1; display:flex; flex-direction:column; text-align:left; }
-.email-title { font-size:15px; font-weight:800; margin-bottom:2px; }
-.email-subtitle { font-size:12px; opacity:.9; }
-.send-arrow { font-size:18px; transition: transform .2s; }
-.email-button:hover .send-arrow { transform:translateX(6px); }
-
-
-.social-networks { background: transparent; border-radius:15px; padding:12px; border:3px solid #333; box-shadow:none; }
-.social-networks h3 { font-size:18px; color:#333; margin:0 0 12px 0; font-weight:700; text-align:center; }
-.social-grid { display:grid; grid-template-columns: repeat(3, 1fr); gap:10px; }
-.social-tiles { display:grid; grid-template-columns: repeat(3, 1fr); gap:10px; }
-.social-tile { position:relative; width:100%; aspect-ratio:1/1; display:grid; place-items:center; text-decoration:none; color:inherit; border-radius:12px; overflow:hidden; background:#0f1114; border:0; box-shadow:0 1px 2px rgba(0,0,0,.5); transition: transform .32s cubic-bezier(.2,.9,.3,1), box-shadow .36s, filter .36s; }
-.social-tile::before { content:''; position:absolute; inset:1px; border-radius:inherit; background: linear-gradient(150deg, color-mix(in srgb,var(--c1, #666) 28%, transparent), color-mix(in srgb,var(--c2, #333) 18%, transparent)); opacity:.45; pointer-events:none; transition:opacity .36s, filter .36s; }
-.social-tile::after { content:''; position:absolute; inset:-6px; border-radius:inherit; background:linear-gradient(120deg, var(--c1, #666), var(--c2, #333)); opacity:0; filter:blur(18px); transform:scale(.8); transition:opacity .5s, transform .5s, filter .5s; mix-blend-mode:plus-lighter; }
-.social-svg { width:58%; height:58%; object-fit:contain; filter: drop-shadow(0 2px 4px rgba(0,0,0,.5)); transition: transform .36s, opacity .36s; }
-.social-tile:hover, .social-tile:focus-visible { transform: translateY(-8px) scale(1.08); box-shadow:0 18px 40px -20px color-mix(in srgb,var(--c1) 65%, transparent), 0 0 0 1px color-mix(in srgb,var(--c1) 45%, #000); }
-.social-tile:hover::before, .social-tile:focus-visible::before { opacity:.95; filter:brightness(1.18) saturate(1.18); }
-.social-tile:hover::after, .social-tile:focus-visible::after { opacity:.9; transform:scale(1); filter:blur(26px); }
-.social-tile:active { transform: translateY(-3px) scale(.98); transition: transform .12s; }
-
-@media (max-width:480px) {
-  .social-grid, .social-tiles { grid-template-columns: repeat(2, 1fr); }
+.attach-row__button {
+  margin-top: 30px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 34px;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-bottom: 10px;
+  border-radius: 10px;
+  cursor: pointer;
+  user-select: none;
+  font-size: 10px;
+  background: rgba(126, 40, 0, 0.5);
+  color: #000000;
+  border: 2px solid rgba(0, 0, 0, 0.35);
+  transition: transform 0.15s ease, filter 0.15s ease;
 }
 
-@media (max-width: 480px) {
-  .social-grid {
-    grid-template-columns: 1fr;
-  }
-  
-  .social-btn {
-    font-size: 12px;
-    padding: 10px;
-  }
+.attach-row__button:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.08);
+}
+
+.attach-row__button:active {
+  transform: translateY(1px);
+}
+
+.attach-row__name {
+  margin-top: 30px;
+  min-width: 0;
+  font-size: 10px;
+  color: rgba(0, 0, 0, 0.92);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  padding-bottom: 10px;
+}
+
+.attach-row__name--empty {
+  opacity: 0.8;
+}
+
+
+.send-fab {
+  position: absolute;
+  right: 20px;
+  bottom: 30px;
+  width: 60px;
+  height: 60px;
+  background: url('../../assets/BotaoEnvioPixelArt.svg') center/cover no-repeat;
+  cursor: pointer;
+  box-shadow: none;
+  border: none;
+}
+
+.send-fab__text {
+  padding-top: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 900;
+  font-size: 12px;
+  color: #1a1a1a;
+  letter-spacing: 0.02em;
+}
+
+.send-fab:hover {
+  transform: translateY(-2px);
+}
+
+.send-fab:active {
+  transform: translateY(1px);
 }
 </style>
