@@ -313,6 +313,10 @@ const prevImage = (item: GalleryItem) => {
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   cursor: pointer;
   position: relative;
+  background-image: url('../../assets/paperPixelArtG.svg');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
 }
 
 .gallery-item:hover {
@@ -519,6 +523,10 @@ const prevImage = (item: GalleryItem) => {
   border: 2px solid #333;
   overflow: hidden;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  background-image: url('../../assets/paperPixelArtG.svg');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
 }
 
 .detail-image-wrapper {
@@ -540,6 +548,7 @@ const prevImage = (item: GalleryItem) => {
 
 .detail-image-info {
   padding: 12px;
+  background: rgba(255, 255, 255, 0.9);
 }
 
 .detail-image-title {
